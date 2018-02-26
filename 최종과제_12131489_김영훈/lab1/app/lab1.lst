@@ -1,0 +1,1617 @@
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 1
+
+
+   1               		.file	"lab1.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.global	init_adc
+  10               		.type	init_adc, @function
+  11               	init_adc:
+  12               	/* prologue: function */
+  13               	/* frame size = 0 */
+  14 0000 80E2      		ldi r24,lo8(32)
+  15 0002 87B9      		out 39-32,r24
+  16 0004 87E8      		ldi r24,lo8(-121)
+  17 0006 86B9      		out 38-32,r24
+  18               	/* epilogue start */
+  19 0008 0895      		ret
+  20               		.size	init_adc, .-init_adc
+  21               	.global	init_switch
+  22               		.type	init_switch, @function
+  23               	init_switch:
+  24               	/* prologue: function */
+  25               	/* frame size = 0 */
+  26 000a 8FEC      		ldi r24,lo8(-49)
+  27 000c 82B9      		out 34-32,r24
+  28 000e 8AE0      		ldi r24,lo8(10)
+  29 0010 8ABF      		out 90-32,r24
+  30 0012 80E3      		ldi r24,lo8(48)
+  31 0014 89BF      		out 89-32,r24
+  32 0016 8FB7      		in r24,__SREG__
+  33 0018 8068      		ori r24,lo8(-128)
+  34 001a 8FBF      		out __SREG__,r24
+  35               	/* epilogue start */
+  36 001c 0895      		ret
+  37               		.size	init_switch, .-init_switch
+  38               	.global	read_adc
+  39               		.type	read_adc, @function
+  40               	read_adc:
+  41               	/* prologue: function */
+  42               	/* frame size = 0 */
+  43 001e 369A      		sbi 38-32,6
+  44               	.L6:
+  45 0020 349B      		sbis 38-32,4
+  46 0022 00C0      		rjmp .L6
+  47 0024 24B1      		in r18,36-32
+  48 0026 85B1      		in r24,37-32
+  49 0028 2295      		swap r18
+  50 002a 2695      		lsr r18
+  51 002c 2695      		lsr r18
+  52 002e 2370      		andi r18,lo8(3)
+  53 0030 30E0      		ldi r19,lo8(0)
+  54 0032 90E0      		ldi r25,lo8(0)
+  55 0034 880F      		lsl r24
+  56 0036 991F      		rol r25
+  57 0038 880F      		lsl r24
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 2
+
+
+  58 003a 991F      		rol r25
+  59 003c 282B      		or r18,r24
+  60 003e 392B      		or r19,r25
+  61 0040 C901      		movw r24,r18
+  62               	/* epilogue start */
+  63 0042 0895      		ret
+  64               		.size	read_adc, .-read_adc
+  65               	.global	__vector_5
+  66               		.type	__vector_5, @function
+  67               	__vector_5:
+  68 0044 1F92      		push __zero_reg__
+  69 0046 0F92      		push r0
+  70 0048 0FB6      		in r0,__SREG__
+  71 004a 0F92      		push r0
+  72 004c 1124      		clr __zero_reg__
+  73 004e 2F93      		push r18
+  74 0050 3F93      		push r19
+  75 0052 4F93      		push r20
+  76 0054 5F93      		push r21
+  77 0056 6F93      		push r22
+  78 0058 7F93      		push r23
+  79 005a 8F93      		push r24
+  80 005c 9F93      		push r25
+  81 005e AF93      		push r26
+  82 0060 BF93      		push r27
+  83               	/* prologue: Signal */
+  84               	/* frame size = 0 */
+  85 0062 8091 0000 		lds r24,mode
+  86 0066 9091 0000 		lds r25,(mode)+1
+  87 006a 8430      		cpi r24,4
+  88 006c 9105      		cpc r25,__zero_reg__
+  89 006e 01F4      		brne .+2
+  90 0070 00C0      		rjmp .L14
+  91 0072 8530      		cpi r24,5
+  92 0074 9105      		cpc r25,__zero_reg__
+  93 0076 04F0      		brlt .L29
+  94 0078 8A30      		cpi r24,10
+  95 007a 9105      		cpc r25,__zero_reg__
+  96 007c 01F4      		brne .+2
+  97 007e 00C0      		rjmp .L15
+  98 0080 0B97      		sbiw r24,11
+  99 0082 01F4      		brne .+2
+ 100 0084 00C0      		rjmp .L30
+ 101               	.L11:
+ 102 0086 20EB      		ldi r18,lo8(1200)
+ 103 0088 34E0      		ldi r19,hi8(1200)
+ 104               	.L19:
+ 105 008a 40E9      		ldi r20,lo8(400)
+ 106 008c 51E0      		ldi r21,hi8(400)
+ 107               	.L27:
+ 108 008e CA01      		movw r24,r20
+ 109               	/* #APP */
+ 110               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 111 0090 0197      		1: sbiw r24,1
+ 112 0092 01F4      		brne 1b
+ 113               	 ;  0 "" 2
+ 114               	/* #NOAPP */
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 3
+
+
+ 115 0094 2150      		subi r18,lo8(-(-1))
+ 116 0096 3040      		sbci r19,hi8(-(-1))
+ 117 0098 01F4      		brne .L27
+ 118               	/* epilogue start */
+ 119 009a BF91      		pop r27
+ 120 009c AF91      		pop r26
+ 121 009e 9F91      		pop r25
+ 122 00a0 8F91      		pop r24
+ 123 00a2 7F91      		pop r23
+ 124 00a4 6F91      		pop r22
+ 125 00a6 5F91      		pop r21
+ 126 00a8 4F91      		pop r20
+ 127 00aa 3F91      		pop r19
+ 128 00ac 2F91      		pop r18
+ 129 00ae 0F90      		pop r0
+ 130 00b0 0FBE      		out __SREG__,r0
+ 131 00b2 0F90      		pop r0
+ 132 00b4 1F90      		pop __zero_reg__
+ 133 00b6 1895      		reti
+ 134               	.L29:
+ 135 00b8 8230      		cpi r24,2
+ 136 00ba 9105      		cpc r25,__zero_reg__
+ 137 00bc 01F4      		brne .+2
+ 138 00be 00C0      		rjmp .L12
+ 139 00c0 0397      		sbiw r24,3
+ 140 00c2 01F4      		brne .L11
+ 141 00c4 8091 0000 		lds r24,set_stime
+ 142 00c8 9091 0000 		lds r25,(set_stime)+1
+ 143 00cc 0297      		sbiw r24,2
+ 144 00ce 01F4      		brne .+2
+ 145 00d0 00C0      		rjmp .L31
+ 146               	.L20:
+ 147 00d2 8091 0000 		lds r24,set_stime
+ 148 00d6 9091 0000 		lds r25,(set_stime)+1
+ 149 00da 0197      		sbiw r24,1
+ 150 00dc 01F4      		brne .+2
+ 151 00de 00C0      		rjmp .L32
+ 152 00e0 8091 0000 		lds r24,set_stime
+ 153 00e4 9091 0000 		lds r25,(set_stime)+1
+ 154 00e8 892B      		or r24,r25
+ 155 00ea 01F4      		brne .L11
+ 156 00ec 8091 0000 		lds r24,s_min
+ 157 00f0 9091 0000 		lds r25,(s_min)+1
+ 158 00f4 0196      		adiw r24,1
+ 159 00f6 6CE3      		ldi r22,lo8(60)
+ 160 00f8 70E0      		ldi r23,hi8(60)
+ 161 00fa 0E94 0000 		call __udivmodhi4
+ 162 00fe 9093 0000 		sts (s_min)+1,r25
+ 163 0102 8093 0000 		sts s_min,r24
+ 164 0106 20EB      		ldi r18,lo8(1200)
+ 165 0108 34E0      		ldi r19,hi8(1200)
+ 166 010a 00C0      		rjmp .L19
+ 167               	.L30:
+ 168 010c 8AE0      		ldi r24,lo8(10)
+ 169 010e 90E0      		ldi r25,hi8(10)
+ 170 0110 9093 0000 		sts (mode)+1,r25
+ 171 0114 8093 0000 		sts mode,r24
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 4
+
+
+ 172 0118 1092 0000 		sts (alarm_timer)+1,__zero_reg__
+ 173 011c 1092 0000 		sts alarm_timer,__zero_reg__
+ 174 0120 1092 0000 		sts (alarm_light)+1,__zero_reg__
+ 175 0124 1092 0000 		sts alarm_light,__zero_reg__
+ 176 0128 20EB      		ldi r18,lo8(1200)
+ 177 012a 34E0      		ldi r19,hi8(1200)
+ 178 012c 00C0      		rjmp .L19
+ 179               	.L15:
+ 180 012e 8091 0000 		lds r24,menu_select
+ 181 0132 9091 0000 		lds r25,(menu_select)+1
+ 182 0136 0196      		adiw r24,1
+ 183 0138 9093 0000 		sts (menu_select)+1,r25
+ 184 013c 8093 0000 		sts menu_select,r24
+ 185 0140 8091 0000 		lds r24,menu_select
+ 186 0144 9091 0000 		lds r25,(menu_select)+1
+ 187 0148 0797      		sbiw r24,7
+ 188 014a 04F0      		brlt .L23
+ 189 014c 1092 0000 		sts (menu_select)+1,__zero_reg__
+ 190 0150 1092 0000 		sts menu_select,__zero_reg__
+ 191               	.L23:
+ 192 0154 8091 0000 		lds r24,menu_select
+ 193 0158 9091 0000 		lds r25,(menu_select)+1
+ 194 015c 0297      		sbiw r24,2
+ 195 015e 04F4      		brge .+2
+ 196 0160 00C0      		rjmp .L33
+ 197 0162 8091 0000 		lds r24,menu_select
+ 198 0166 9091 0000 		lds r25,(menu_select)+1
+ 199 016a 0597      		sbiw r24,5
+ 200 016c 04F0      		brlt .+2
+ 201 016e 00C0      		rjmp .L25
+ 202 0170 81E0      		ldi r24,lo8(1)
+ 203 0172 90E0      		ldi r25,hi8(1)
+ 204 0174 9093 0000 		sts (status)+1,r25
+ 205 0178 8093 0000 		sts status,r24
+ 206 017c 20EB      		ldi r18,lo8(1200)
+ 207 017e 34E0      		ldi r19,hi8(1200)
+ 208 0180 00C0      		rjmp .L19
+ 209               	.L12:
+ 210 0182 8091 0000 		lds r24,set_time
+ 211 0186 9091 0000 		lds r25,(set_time)+1
+ 212 018a 0197      		sbiw r24,1
+ 213 018c 01F4      		brne .+2
+ 214 018e 00C0      		rjmp .L34
+ 215 0190 8091 0000 		lds r24,set_time
+ 216 0194 9091 0000 		lds r25,(set_time)+1
+ 217 0198 892B      		or r24,r25
+ 218 019a 01F0      		breq .+2
+ 219 019c 00C0      		rjmp .L11
+ 220 019e 8091 0000 		lds r24,m_min
+ 221 01a2 9091 0000 		lds r25,(m_min)+1
+ 222 01a6 0196      		adiw r24,1
+ 223 01a8 6CE3      		ldi r22,lo8(60)
+ 224 01aa 70E0      		ldi r23,hi8(60)
+ 225 01ac 0E94 0000 		call __udivmodhi4
+ 226 01b0 9093 0000 		sts (m_min)+1,r25
+ 227 01b4 8093 0000 		sts m_min,r24
+ 228 01b8 20EB      		ldi r18,lo8(1200)
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 5
+
+
+ 229 01ba 34E0      		ldi r19,hi8(1200)
+ 230 01bc 00C0      		rjmp .L19
+ 231               	.L14:
+ 232 01be 8091 0000 		lds r24,max_min
+ 233 01c2 9091 0000 		lds r25,(max_min)+1
+ 234 01c6 0197      		sbiw r24,1
+ 235 01c8 01F4      		brne .+2
+ 236 01ca 00C0      		rjmp .L35
+ 237 01cc 8091 0000 		lds r24,max_min
+ 238 01d0 9091 0000 		lds r25,(max_min)+1
+ 239 01d4 892B      		or r24,r25
+ 240 01d6 01F0      		breq .+2
+ 241 01d8 00C0      		rjmp .L11
+ 242 01da 8091 0000 		lds r24,min_light
+ 243 01de 9091 0000 		lds r25,(min_light)+1
+ 244 01e2 0196      		adiw r24,1
+ 245 01e4 6BE0      		ldi r22,lo8(11)
+ 246 01e6 70E0      		ldi r23,hi8(11)
+ 247 01e8 0E94 0000 		call __udivmodhi4
+ 248 01ec 9093 0000 		sts (min_light)+1,r25
+ 249 01f0 8093 0000 		sts min_light,r24
+ 250 01f4 20EB      		ldi r18,lo8(1200)
+ 251 01f6 34E0      		ldi r19,hi8(1200)
+ 252 01f8 00C0      		rjmp .L19
+ 253               	.L25:
+ 254 01fa 8091 0000 		lds r24,menu_select
+ 255 01fe 9091 0000 		lds r25,(menu_select)+1
+ 256 0202 0797      		sbiw r24,7
+ 257 0204 04F0      		brlt .+2
+ 258 0206 00C0      		rjmp .L11
+ 259 0208 1092 0000 		sts (status)+1,__zero_reg__
+ 260 020c 1092 0000 		sts status,__zero_reg__
+ 261 0210 20EB      		ldi r18,lo8(1200)
+ 262 0212 34E0      		ldi r19,hi8(1200)
+ 263 0214 00C0      		rjmp .L19
+ 264               	.L34:
+ 265 0216 8091 0000 		lds r24,m_hour
+ 266 021a 9091 0000 		lds r25,(m_hour)+1
+ 267 021e 0196      		adiw r24,1
+ 268 0220 68E1      		ldi r22,lo8(24)
+ 269 0222 70E0      		ldi r23,hi8(24)
+ 270 0224 0E94 0000 		call __udivmodhi4
+ 271 0228 9093 0000 		sts (m_hour)+1,r25
+ 272 022c 8093 0000 		sts m_hour,r24
+ 273 0230 20EB      		ldi r18,lo8(1200)
+ 274 0232 34E0      		ldi r19,hi8(1200)
+ 275 0234 00C0      		rjmp .L19
+ 276               	.L32:
+ 277 0236 8091 0000 		lds r24,s_hour
+ 278 023a 9091 0000 		lds r25,(s_hour)+1
+ 279 023e 0196      		adiw r24,1
+ 280 0240 68E1      		ldi r22,lo8(24)
+ 281 0242 70E0      		ldi r23,hi8(24)
+ 282 0244 0E94 0000 		call __udivmodhi4
+ 283 0248 9093 0000 		sts (s_hour)+1,r25
+ 284 024c 8093 0000 		sts s_hour,r24
+ 285 0250 20EB      		ldi r18,lo8(1200)
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 6
+
+
+ 286 0252 34E0      		ldi r19,hi8(1200)
+ 287 0254 00C0      		rjmp .L19
+ 288               	.L31:
+ 289 0256 8091 0000 		lds r24,s_day
+ 290 025a 9091 0000 		lds r25,(s_day)+1
+ 291 025e 0196      		adiw r24,1
+ 292 0260 6EE1      		ldi r22,lo8(30)
+ 293 0262 70E0      		ldi r23,hi8(30)
+ 294 0264 0E94 0000 		call __udivmodhi4
+ 295 0268 9093 0000 		sts (s_day)+1,r25
+ 296 026c 8093 0000 		sts s_day,r24
+ 297 0270 00C0      		rjmp .L20
+ 298               	.L35:
+ 299 0272 8091 0000 		lds r24,max_light
+ 300 0276 9091 0000 		lds r25,(max_light)+1
+ 301 027a 0196      		adiw r24,1
+ 302 027c 6BE0      		ldi r22,lo8(11)
+ 303 027e 70E0      		ldi r23,hi8(11)
+ 304 0280 0E94 0000 		call __udivmodhi4
+ 305 0284 9093 0000 		sts (max_light)+1,r25
+ 306 0288 8093 0000 		sts max_light,r24
+ 307 028c 20EB      		ldi r18,lo8(1200)
+ 308 028e 34E0      		ldi r19,hi8(1200)
+ 309 0290 00C0      		rjmp .L19
+ 310               	.L33:
+ 311 0292 82E0      		ldi r24,lo8(2)
+ 312 0294 90E0      		ldi r25,hi8(2)
+ 313 0296 9093 0000 		sts (status)+1,r25
+ 314 029a 8093 0000 		sts status,r24
+ 315 029e 20EB      		ldi r18,lo8(1200)
+ 316 02a0 34E0      		ldi r19,hi8(1200)
+ 317 02a2 00C0      		rjmp .L19
+ 318               		.size	__vector_5, .-__vector_5
+ 319               	.global	AlarmTask
+ 320               		.type	AlarmTask, @function
+ 321               	AlarmTask:
+ 322 02a4 EF92      		push r14
+ 323 02a6 FF92      		push r15
+ 324 02a8 0F93      		push r16
+ 325 02aa 1F93      		push r17
+ 326 02ac DF93      		push r29
+ 327 02ae CF93      		push r28
+ 328 02b0 0F92      		push __tmp_reg__
+ 329 02b2 CDB7      		in r28,__SP_L__
+ 330 02b4 DEB7      		in r29,__SP_H__
+ 331               	/* prologue: function */
+ 332               	/* frame size = 1 */
+ 333 02b6 7E01      		movw r14,r28
+ 334 02b8 0894      		sec
+ 335 02ba E11C      		adc r14,__zero_reg__
+ 336 02bc F11C      		adc r15,__zero_reg__
+ 337 02be 0BE0      		ldi r16,lo8(11)
+ 338 02c0 10E0      		ldi r17,hi8(11)
+ 339 02c2 00C0      		rjmp .L40
+ 340               	.L37:
+ 341 02c4 8091 0000 		lds r24,alarm_light
+ 342 02c8 9091 0000 		lds r25,(alarm_light)+1
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 7
+
+
+ 343 02cc 0197      		sbiw r24,1
+ 344 02ce 01F4      		brne .+2
+ 345 02d0 00C0      		rjmp .L42
+ 346               	.L38:
+ 347 02d2 88EE      		ldi r24,lo8(1000)
+ 348 02d4 93E0      		ldi r25,hi8(1000)
+ 349 02d6 0E94 0000 		call OSTimeDly
+ 350               	.L40:
+ 351 02da 8091 0000 		lds r24,alarm_timer
+ 352 02de 9091 0000 		lds r25,(alarm_timer)+1
+ 353 02e2 0197      		sbiw r24,1
+ 354 02e4 01F4      		brne .L37
+ 355 02e6 2091 0000 		lds r18,s_day
+ 356 02ea 3091 0000 		lds r19,(s_day)+1
+ 357 02ee 8091 0000 		lds r24,m_day
+ 358 02f2 9091 0000 		lds r25,(m_day)+1
+ 359 02f6 2817      		cp r18,r24
+ 360 02f8 3907      		cpc r19,r25
+ 361 02fa 01F4      		brne .L38
+ 362 02fc 2091 0000 		lds r18,s_hour
+ 363 0300 3091 0000 		lds r19,(s_hour)+1
+ 364 0304 8091 0000 		lds r24,m_hour
+ 365 0308 9091 0000 		lds r25,(m_hour)+1
+ 366 030c 2817      		cp r18,r24
+ 367 030e 3907      		cpc r19,r25
+ 368 0310 01F4      		brne .L38
+ 369 0312 2091 0000 		lds r18,s_min
+ 370 0316 3091 0000 		lds r19,(s_min)+1
+ 371 031a 8091 0000 		lds r24,m_min
+ 372 031e 9091 0000 		lds r25,(m_min)+1
+ 373 0322 2817      		cp r18,r24
+ 374 0324 3907      		cpc r19,r25
+ 375 0326 01F4      		brne .L38
+ 376 0328 8091 0000 		lds r24,m_sec
+ 377 032c 9091 0000 		lds r25,(m_sec)+1
+ 378 0330 892B      		or r24,r25
+ 379 0332 01F4      		brne .L38
+ 380 0334 1093 0000 		sts (mode)+1,r17
+ 381 0338 0093 0000 		sts mode,r16
+ 382 033c 8091 0000 		lds r24,Sem
+ 383 0340 9091 0000 		lds r25,(Sem)+1
+ 384 0344 60E0      		ldi r22,lo8(0)
+ 385 0346 70E0      		ldi r23,hi8(0)
+ 386 0348 A701      		movw r20,r14
+ 387 034a 0E94 0000 		call OSSemPend
+ 388 034e 1092 0000 		sts (m_day)+1,__zero_reg__
+ 389 0352 1092 0000 		sts m_day,__zero_reg__
+ 390 0356 8091 0000 		lds r24,Sem
+ 391 035a 9091 0000 		lds r25,(Sem)+1
+ 392 035e 0E94 0000 		call OSSemPost
+ 393 0362 00C0      		rjmp .L38
+ 394               	.L42:
+ 395 0364 2091 0000 		lds r18,min_light
+ 396 0368 3091 0000 		lds r19,(min_light)+1
+ 397 036c 8091 0000 		lds r24,light
+ 398 0370 9091 0000 		lds r25,(light)+1
+ 399 0374 8217      		cp r24,r18
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 8
+
+
+ 400 0376 9307      		cpc r25,r19
+ 401 0378 00F0      		brlo .L39
+ 402 037a 2091 0000 		lds r18,max_light
+ 403 037e 3091 0000 		lds r19,(max_light)+1
+ 404 0382 8091 0000 		lds r24,light
+ 405 0386 9091 0000 		lds r25,(light)+1
+ 406 038a 2817      		cp r18,r24
+ 407 038c 3907      		cpc r19,r25
+ 408 038e 00F0      		brlo .+2
+ 409 0390 00C0      		rjmp .L38
+ 410               	.L39:
+ 411 0392 1093 0000 		sts (mode)+1,r17
+ 412 0396 0093 0000 		sts mode,r16
+ 413 039a 00C0      		rjmp .L38
+ 414               		.size	AlarmTask, .-AlarmTask
+ 415               	.global	AdcTask
+ 416               		.type	AdcTask, @function
+ 417               	AdcTask:
+ 418               	/* prologue: function */
+ 419               	/* frame size = 0 */
+ 420 039c 80E2      		ldi r24,lo8(32)
+ 421 039e 87B9      		out 39-32,r24
+ 422 03a0 87E8      		ldi r24,lo8(-121)
+ 423 03a2 86B9      		out 38-32,r24
+ 424               	.L44:
+ 425 03a4 0E94 0000 		call read_adc
+ 426 03a8 64E6      		ldi r22,lo8(100)
+ 427 03aa 70E0      		ldi r23,hi8(100)
+ 428 03ac 0E94 0000 		call __udivmodhi4
+ 429 03b0 CB01      		movw r24,r22
+ 430 03b2 6AE0      		ldi r22,lo8(10)
+ 431 03b4 70E0      		ldi r23,hi8(10)
+ 432 03b6 0E94 0000 		call __udivmodhi4
+ 433 03ba 9093 0000 		sts (light)+1,r25
+ 434 03be 8093 0000 		sts light,r24
+ 435 03c2 84EF      		ldi r24,lo8(500)
+ 436 03c4 91E0      		ldi r25,hi8(500)
+ 437 03c6 0E94 0000 		call OSTimeDly
+ 438 03ca 00C0      		rjmp .L44
+ 439               		.size	AdcTask, .-AdcTask
+ 440               	.global	LedTask
+ 441               		.type	LedTask, @function
+ 442               	LedTask:
+ 443 03cc CF93      		push r28
+ 444 03ce DF93      		push r29
+ 445               	/* prologue: function */
+ 446               	/* frame size = 0 */
+ 447 03d0 8FEF      		ldi r24,lo8(-1)
+ 448 03d2 8ABB      		out 58-32,r24
+ 449 03d4 C1E0      		ldi r28,lo8(1)
+ 450 03d6 D0E0      		ldi r29,hi8(1)
+ 451               	.L47:
+ 452 03d8 8091 0000 		lds r24,menu_select
+ 453 03dc 9091 0000 		lds r25,(menu_select)+1
+ 454 03e0 9E01      		movw r18,r28
+ 455 03e2 00C0      		rjmp 2f
+ 456 03e4 220F      	1:	lsl r18
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 9
+
+
+ 457 03e6 331F      		rol r19
+ 458 03e8 8A95      	2:	dec r24
+ 459 03ea 02F4      		brpl 1b
+ 460 03ec 2BBB      		out 59-32,r18
+ 461 03ee 84EF      		ldi r24,lo8(500)
+ 462 03f0 91E0      		ldi r25,hi8(500)
+ 463 03f2 0E94 0000 		call OSTimeDly
+ 464 03f6 00C0      		rjmp .L47
+ 465               		.size	LedTask, .-LedTask
+ 466               	.global	FndTask
+ 467               		.type	FndTask, @function
+ 468               	FndTask:
+ 469 03f8 2F92      		push r2
+ 470 03fa 3F92      		push r3
+ 471 03fc 4F92      		push r4
+ 472 03fe 5F92      		push r5
+ 473 0400 6F92      		push r6
+ 474 0402 7F92      		push r7
+ 475 0404 8F92      		push r8
+ 476 0406 9F92      		push r9
+ 477 0408 AF92      		push r10
+ 478 040a BF92      		push r11
+ 479 040c CF92      		push r12
+ 480 040e DF92      		push r13
+ 481 0410 EF92      		push r14
+ 482 0412 FF92      		push r15
+ 483 0414 0F93      		push r16
+ 484 0416 1F93      		push r17
+ 485 0418 DF93      		push r29
+ 486 041a CF93      		push r28
+ 487 041c CDB7      		in r28,__SP_L__
+ 488 041e DEB7      		in r29,__SP_H__
+ 489 0420 2897      		sbiw r28,8
+ 490 0422 0FB6      		in __tmp_reg__,__SREG__
+ 491 0424 F894      		cli
+ 492 0426 DEBF      		out __SP_H__,r29
+ 493 0428 0FBE      		out __SREG__,__tmp_reg__
+ 494 042a CDBF      		out __SP_L__,r28
+ 495               	/* prologue: function */
+ 496               	/* frame size = 8 */
+ 497 042c 8FEF      		ldi r24,lo8(-1)
+ 498 042e 84BB      		out 52-32,r24
+ 499 0430 8FE0      		ldi r24,lo8(15)
+ 500 0432 8093 6400 		sts 100,r24
+ 501 0436 4E01      		movw r8,r28
+ 502 0438 0894      		sec
+ 503 043a 811C      		adc r8,__zero_reg__
+ 504 043c 911C      		adc r9,__zero_reg__
+ 505 043e 18E3      		ldi r17,lo8(56)
+ 506 0440 412E      		mov r4,r17
+ 507 0442 512C      		mov r5,__zero_reg__
+ 508 0444 B1E3      		ldi r27,lo8(49)
+ 509 0446 6B2E      		mov r6,r27
+ 510 0448 712C      		mov r7,__zero_reg__
+ 511 044a ADE6      		ldi r26,lo8(109)
+ 512 044c 2A2E      		mov r2,r26
+ 513 044e 312C      		mov r3,__zero_reg__
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 10
+
+
+ 514               	.L66:
+ 515 0450 8091 0000 		lds r24,mode
+ 516 0454 9091 0000 		lds r25,(mode)+1
+ 517 0458 0A97      		sbiw r24,10
+ 518 045a 01F4      		brne .+2
+ 519 045c 00C0      		rjmp .L69
+ 520 045e 8091 0000 		lds r24,mode
+ 521 0462 9091 0000 		lds r25,(mode)+1
+ 522 0466 892B      		or r24,r25
+ 523 0468 01F4      		brne .+2
+ 524 046a 00C0      		rjmp .L55
+ 525 046c 8091 0000 		lds r24,mode
+ 526 0470 9091 0000 		lds r25,(mode)+1
+ 527 0474 0297      		sbiw r24,2
+ 528 0476 01F4      		brne .+2
+ 529 0478 00C0      		rjmp .L55
+ 530 047a 8091 0000 		lds r24,mode
+ 531 047e 9091 0000 		lds r25,(mode)+1
+ 532 0482 0397      		sbiw r24,3
+ 533 0484 01F4      		brne .+2
+ 534 0486 00C0      		rjmp .L70
+ 535 0488 8091 0000 		lds r24,mode
+ 536 048c 9091 0000 		lds r25,(mode)+1
+ 537 0490 0497      		sbiw r24,4
+ 538 0492 01F4      		brne .+2
+ 539 0494 00C0      		rjmp .L71
+ 540 0496 8091 0000 		lds r24,mode
+ 541 049a 9091 0000 		lds r25,(mode)+1
+ 542 049e 0B97      		sbiw r24,11
+ 543 04a0 01F4      		brne .+2
+ 544 04a2 00C0      		rjmp .L72
+ 545 04a4 8091 0000 		lds r24,mode
+ 546 04a8 9091 0000 		lds r25,(mode)+1
+ 547 04ac 0197      		sbiw r24,1
+ 548 04ae 01F4      		brne .+2
+ 549 04b0 00C0      		rjmp .L61
+ 550 04b2 61E0      		ldi r22,lo8(1)
+ 551 04b4 A62E      		mov r10,r22
+ 552 04b6 B12C      		mov r11,__zero_reg__
+ 553               	.L54:
+ 554 04b8 50E0      		ldi r21,lo8(fnd_sel)
+ 555 04ba C52E      		mov r12,r21
+ 556 04bc 50E0      		ldi r21,hi8(fnd_sel)
+ 557 04be D52E      		mov r13,r21
+ 558 04c0 7401      		movw r14,r8
+ 559 04c2 01E0      		ldi r16,lo8(1)
+ 560 04c4 10E0      		ldi r17,hi8(1)
+ 561 04c6 A114      		cp r10,__zero_reg__
+ 562 04c8 B104      		cpc r11,__zero_reg__
+ 563 04ca 01F4      		brne .L63
+ 564               	.L73:
+ 565 04cc D701      		movw r26,r14
+ 566 04ce 8C91      		ld r24,X
+ 567 04d0 85BB      		out 53-32,r24
+ 568               	.L64:
+ 569 04d2 D601      		movw r26,r12
+ 570 04d4 8C91      		ld r24,X
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 11
+
+
+ 571 04d6 8093 6500 		sts 101,r24
+ 572 04da 82E0      		ldi r24,lo8(2)
+ 573 04dc 90E0      		ldi r25,hi8(2)
+ 574 04de 0E94 0000 		call OSTimeDly
+ 575 04e2 0430      		cpi r16,4
+ 576 04e4 1105      		cpc r17,__zero_reg__
+ 577 04e6 04F0      		brlt .+2
+ 578 04e8 00C0      		rjmp .L66
+ 579               	.L65:
+ 580 04ea 0F5F      		subi r16,lo8(-(1))
+ 581 04ec 1F4F      		sbci r17,hi8(-(1))
+ 582 04ee 0894      		sec
+ 583 04f0 C11C      		adc r12,__zero_reg__
+ 584 04f2 D11C      		adc r13,__zero_reg__
+ 585 04f4 E2E0      		ldi r30,lo8(2)
+ 586 04f6 F0E0      		ldi r31,hi8(2)
+ 587 04f8 EE0E      		add r14,r30
+ 588 04fa FF1E      		adc r15,r31
+ 589 04fc A114      		cp r10,__zero_reg__
+ 590 04fe B104      		cpc r11,__zero_reg__
+ 591 0500 01F0      		breq .L73
+ 592               	.L63:
+ 593 0502 D701      		movw r26,r14
+ 594 0504 ED91      		ld r30,X+
+ 595 0506 FC91      		ld r31,X
+ 596 0508 E050      		subi r30,lo8(-(digit))
+ 597 050a F040      		sbci r31,hi8(-(digit))
+ 598 050c 8081      		ld r24,Z
+ 599 050e 85BB      		out 53-32,r24
+ 600 0510 0330      		cpi r16,3
+ 601 0512 1105      		cpc r17,__zero_reg__
+ 602 0514 01F4      		brne .L64
+ 603 0516 AF9A      		sbi 53-32,7
+ 604 0518 F601      		movw r30,r12
+ 605 051a 8081      		ld r24,Z
+ 606 051c 8093 6500 		sts 101,r24
+ 607 0520 82E0      		ldi r24,lo8(2)
+ 608 0522 90E0      		ldi r25,hi8(2)
+ 609 0524 0E94 0000 		call OSTimeDly
+ 610 0528 00C0      		rjmp .L65
+ 611               	.L55:
+ 612 052a 8091 0000 		lds r24,m_hour
+ 613 052e 9091 0000 		lds r25,(m_hour)+1
+ 614 0532 6AE0      		ldi r22,lo8(10)
+ 615 0534 70E0      		ldi r23,hi8(10)
+ 616 0536 0E94 0000 		call __udivmodhi4
+ 617 053a CB01      		movw r24,r22
+ 618 053c 6AE0      		ldi r22,lo8(10)
+ 619 053e 70E0      		ldi r23,hi8(10)
+ 620 0540 0E94 0000 		call __udivmodhi4
+ 621 0544 9887      		std Y+8,r25
+ 622 0546 8F83      		std Y+7,r24
+ 623 0548 8091 0000 		lds r24,m_hour
+ 624 054c 9091 0000 		lds r25,(m_hour)+1
+ 625 0550 6AE0      		ldi r22,lo8(10)
+ 626 0552 70E0      		ldi r23,hi8(10)
+ 627 0554 0E94 0000 		call __udivmodhi4
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 12
+
+
+ 628 0558 9E83      		std Y+6,r25
+ 629 055a 8D83      		std Y+5,r24
+ 630 055c 8091 0000 		lds r24,m_min
+ 631 0560 9091 0000 		lds r25,(m_min)+1
+ 632 0564 6AE0      		ldi r22,lo8(10)
+ 633 0566 70E0      		ldi r23,hi8(10)
+ 634 0568 0E94 0000 		call __udivmodhi4
+ 635 056c CB01      		movw r24,r22
+ 636 056e 6AE0      		ldi r22,lo8(10)
+ 637 0570 70E0      		ldi r23,hi8(10)
+ 638 0572 0E94 0000 		call __udivmodhi4
+ 639 0576 9C83      		std Y+4,r25
+ 640 0578 8B83      		std Y+3,r24
+ 641 057a 8091 0000 		lds r24,m_min
+ 642 057e 9091 0000 		lds r25,(m_min)+1
+ 643 0582 6AE0      		ldi r22,lo8(10)
+ 644 0584 70E0      		ldi r23,hi8(10)
+ 645 0586 0E94 0000 		call __udivmodhi4
+ 646 058a 9A83      		std Y+2,r25
+ 647 058c 8983      		std Y+1,r24
+ 648 058e F1E0      		ldi r31,lo8(1)
+ 649 0590 AF2E      		mov r10,r31
+ 650 0592 B12C      		mov r11,__zero_reg__
+ 651 0594 00C0      		rjmp .L54
+ 652               	.L69:
+ 653 0596 8091 0000 		lds r24,status
+ 654 059a 9091 0000 		lds r25,(status)+1
+ 655 059e 0297      		sbiw r24,2
+ 656 05a0 01F0      		breq .L74
+ 657 05a2 8091 0000 		lds r24,status
+ 658 05a6 9091 0000 		lds r25,(status)+1
+ 659 05aa 0197      		sbiw r24,1
+ 660 05ac 01F4      		brne .+2
+ 661 05ae 00C0      		rjmp .L75
+ 662 05b0 8091 0000 		lds r24,status
+ 663 05b4 9091 0000 		lds r25,(status)+1
+ 664 05b8 892B      		or r24,r25
+ 665 05ba 01F4      		brne .L52
+ 666 05bc 89E3      		ldi r24,lo8(57)
+ 667 05be 90E0      		ldi r25,hi8(57)
+ 668 05c0 9887      		std Y+8,r25
+ 669 05c2 8F83      		std Y+7,r24
+ 670 05c4 5E82      		std Y+6,r5
+ 671 05c6 4D82      		std Y+5,r4
+ 672 05c8 3C82      		std Y+4,r3
+ 673 05ca 2B82      		std Y+3,r2
+ 674               	.L52:
+ 675 05cc 8091 0000 		lds r24,menu_select
+ 676 05d0 9091 0000 		lds r25,(menu_select)+1
+ 677 05d4 6AE0      		ldi r22,lo8(10)
+ 678 05d6 70E0      		ldi r23,hi8(10)
+ 679 05d8 0E94 0000 		call __divmodhi4
+ 680               	.L68:
+ 681 05dc FC01      		movw r30,r24
+ 682 05de E050      		subi r30,lo8(-(digit))
+ 683 05e0 F040      		sbci r31,hi8(-(digit))
+ 684 05e2 8081      		ld r24,Z
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 13
+
+
+ 685 05e4 8983      		std Y+1,r24
+ 686 05e6 1A82      		std Y+2,__zero_reg__
+ 687 05e8 AA24      		clr r10
+ 688 05ea BB24      		clr r11
+ 689 05ec 00C0      		rjmp .L54
+ 690               	.L74:
+ 691 05ee 8DE3      		ldi r24,lo8(61)
+ 692 05f0 90E0      		ldi r25,hi8(61)
+ 693 05f2 9887      		std Y+8,r25
+ 694 05f4 8F83      		std Y+7,r24
+ 695 05f6 A9E7      		ldi r26,lo8(121)
+ 696 05f8 B0E0      		ldi r27,hi8(121)
+ 697 05fa BE83      		std Y+6,r27
+ 698 05fc AD83      		std Y+5,r26
+ 699 05fe 7C82      		std Y+4,r7
+ 700 0600 6B82      		std Y+3,r6
+ 701 0602 00C0      		rjmp .L52
+ 702               	.L70:
+ 703 0604 8091 0000 		lds r24,set_stime
+ 704 0608 9091 0000 		lds r25,(set_stime)+1
+ 705 060c 0297      		sbiw r24,2
+ 706 060e 01F4      		brne .+2
+ 707 0610 00C0      		rjmp .L76
+ 708 0612 8091 0000 		lds r24,s_hour
+ 709 0616 9091 0000 		lds r25,(s_hour)+1
+ 710 061a 6AE0      		ldi r22,lo8(10)
+ 711 061c 70E0      		ldi r23,hi8(10)
+ 712 061e 0E94 0000 		call __udivmodhi4
+ 713 0622 CB01      		movw r24,r22
+ 714 0624 6AE0      		ldi r22,lo8(10)
+ 715 0626 70E0      		ldi r23,hi8(10)
+ 716 0628 0E94 0000 		call __udivmodhi4
+ 717 062c 9887      		std Y+8,r25
+ 718 062e 8F83      		std Y+7,r24
+ 719 0630 8091 0000 		lds r24,s_hour
+ 720 0634 9091 0000 		lds r25,(s_hour)+1
+ 721 0638 6AE0      		ldi r22,lo8(10)
+ 722 063a 70E0      		ldi r23,hi8(10)
+ 723 063c 0E94 0000 		call __udivmodhi4
+ 724 0640 9E83      		std Y+6,r25
+ 725 0642 8D83      		std Y+5,r24
+ 726 0644 8091 0000 		lds r24,s_min
+ 727 0648 9091 0000 		lds r25,(s_min)+1
+ 728 064c 6AE0      		ldi r22,lo8(10)
+ 729 064e 70E0      		ldi r23,hi8(10)
+ 730 0650 0E94 0000 		call __udivmodhi4
+ 731 0654 CB01      		movw r24,r22
+ 732 0656 6AE0      		ldi r22,lo8(10)
+ 733 0658 70E0      		ldi r23,hi8(10)
+ 734 065a 0E94 0000 		call __udivmodhi4
+ 735 065e 9C83      		std Y+4,r25
+ 736 0660 8B83      		std Y+3,r24
+ 737 0662 8091 0000 		lds r24,s_min
+ 738 0666 9091 0000 		lds r25,(s_min)+1
+ 739 066a 6AE0      		ldi r22,lo8(10)
+ 740 066c 70E0      		ldi r23,hi8(10)
+ 741 066e 0E94 0000 		call __udivmodhi4
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 14
+
+
+ 742 0672 9A83      		std Y+2,r25
+ 743 0674 8983      		std Y+1,r24
+ 744 0676 E1E0      		ldi r30,lo8(1)
+ 745 0678 AE2E      		mov r10,r30
+ 746 067a B12C      		mov r11,__zero_reg__
+ 747 067c 00C0      		rjmp .L54
+ 748               	.L75:
+ 749 067e 3886      		std Y+8,r3
+ 750 0680 2F82      		std Y+7,r2
+ 751 0682 E9E7      		ldi r30,lo8(121)
+ 752 0684 F0E0      		ldi r31,hi8(121)
+ 753 0686 FE83      		std Y+6,r31
+ 754 0688 ED83      		std Y+5,r30
+ 755 068a 7C82      		std Y+4,r7
+ 756 068c 6B82      		std Y+3,r6
+ 757 068e 00C0      		rjmp .L52
+ 758               	.L71:
+ 759 0690 8091 0000 		lds r24,min_light
+ 760 0694 9091 0000 		lds r25,(min_light)+1
+ 761 0698 6AE0      		ldi r22,lo8(10)
+ 762 069a 70E0      		ldi r23,hi8(10)
+ 763 069c 0E94 0000 		call __udivmodhi4
+ 764 06a0 CB01      		movw r24,r22
+ 765 06a2 6AE0      		ldi r22,lo8(10)
+ 766 06a4 70E0      		ldi r23,hi8(10)
+ 767 06a6 0E94 0000 		call __udivmodhi4
+ 768 06aa 9887      		std Y+8,r25
+ 769 06ac 8F83      		std Y+7,r24
+ 770 06ae 8091 0000 		lds r24,min_light
+ 771 06b2 9091 0000 		lds r25,(min_light)+1
+ 772 06b6 6AE0      		ldi r22,lo8(10)
+ 773 06b8 70E0      		ldi r23,hi8(10)
+ 774 06ba 0E94 0000 		call __udivmodhi4
+ 775 06be 9E83      		std Y+6,r25
+ 776 06c0 8D83      		std Y+5,r24
+ 777 06c2 8091 0000 		lds r24,max_light
+ 778 06c6 9091 0000 		lds r25,(max_light)+1
+ 779 06ca 6AE0      		ldi r22,lo8(10)
+ 780 06cc 70E0      		ldi r23,hi8(10)
+ 781 06ce 0E94 0000 		call __udivmodhi4
+ 782 06d2 CB01      		movw r24,r22
+ 783 06d4 6AE0      		ldi r22,lo8(10)
+ 784 06d6 70E0      		ldi r23,hi8(10)
+ 785 06d8 0E94 0000 		call __udivmodhi4
+ 786 06dc 9C83      		std Y+4,r25
+ 787 06de 8B83      		std Y+3,r24
+ 788 06e0 8091 0000 		lds r24,max_light
+ 789 06e4 9091 0000 		lds r25,(max_light)+1
+ 790 06e8 6AE0      		ldi r22,lo8(10)
+ 791 06ea 70E0      		ldi r23,hi8(10)
+ 792 06ec 0E94 0000 		call __udivmodhi4
+ 793 06f0 9A83      		std Y+2,r25
+ 794 06f2 8983      		std Y+1,r24
+ 795 06f4 71E0      		ldi r23,lo8(1)
+ 796 06f6 A72E      		mov r10,r23
+ 797 06f8 B12C      		mov r11,__zero_reg__
+ 798 06fa 00C0      		rjmp .L54
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 15
+
+
+ 799               	.L72:
+ 800 06fc 87E7      		ldi r24,lo8(119)
+ 801 06fe 90E0      		ldi r25,hi8(119)
+ 802 0700 9887      		std Y+8,r25
+ 803 0702 8F83      		std Y+7,r24
+ 804 0704 5E82      		std Y+6,r5
+ 805 0706 4D82      		std Y+5,r4
+ 806 0708 9C83      		std Y+4,r25
+ 807 070a 8B83      		std Y+3,r24
+ 808 070c A7E3      		ldi r26,lo8(55)
+ 809 070e B0E0      		ldi r27,hi8(55)
+ 810 0710 BA83      		std Y+2,r27
+ 811 0712 A983      		std Y+1,r26
+ 812 0714 AA24      		clr r10
+ 813 0716 BB24      		clr r11
+ 814 0718 00C0      		rjmp .L54
+ 815               	.L61:
+ 816 071a 5886      		std Y+8,r5
+ 817 071c 4F82      		std Y+7,r4
+ 818 071e 7E82      		std Y+6,r7
+ 819 0720 6D82      		std Y+5,r6
+ 820 0722 8091 0000 		lds r24,light
+ 821 0726 9091 0000 		lds r25,(light)+1
+ 822 072a 6AE0      		ldi r22,lo8(10)
+ 823 072c 70E0      		ldi r23,hi8(10)
+ 824 072e 0E94 0000 		call __udivmodhi4
+ 825 0732 CB01      		movw r24,r22
+ 826 0734 6AE0      		ldi r22,lo8(10)
+ 827 0736 70E0      		ldi r23,hi8(10)
+ 828 0738 0E94 0000 		call __udivmodhi4
+ 829 073c FC01      		movw r30,r24
+ 830 073e E050      		subi r30,lo8(-(digit))
+ 831 0740 F040      		sbci r31,hi8(-(digit))
+ 832 0742 8081      		ld r24,Z
+ 833 0744 8B83      		std Y+3,r24
+ 834 0746 1C82      		std Y+4,__zero_reg__
+ 835 0748 8091 0000 		lds r24,light
+ 836 074c 9091 0000 		lds r25,(light)+1
+ 837 0750 6AE0      		ldi r22,lo8(10)
+ 838 0752 70E0      		ldi r23,hi8(10)
+ 839 0754 0E94 0000 		call __udivmodhi4
+ 840 0758 00C0      		rjmp .L68
+ 841               	.L76:
+ 842 075a AEE5      		ldi r26,lo8(94)
+ 843 075c B0E0      		ldi r27,hi8(94)
+ 844 075e B887      		std Y+8,r27
+ 845 0760 AF83      		std Y+7,r26
+ 846 0762 EEE6      		ldi r30,lo8(110)
+ 847 0764 F0E0      		ldi r31,hi8(110)
+ 848 0766 FE83      		std Y+6,r31
+ 849 0768 ED83      		std Y+5,r30
+ 850 076a 8091 0000 		lds r24,s_day
+ 851 076e 9091 0000 		lds r25,(s_day)+1
+ 852 0772 6AE0      		ldi r22,lo8(10)
+ 853 0774 70E0      		ldi r23,hi8(10)
+ 854 0776 0E94 0000 		call __udivmodhi4
+ 855 077a CB01      		movw r24,r22
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 16
+
+
+ 856 077c 6AE0      		ldi r22,lo8(10)
+ 857 077e 70E0      		ldi r23,hi8(10)
+ 858 0780 0E94 0000 		call __udivmodhi4
+ 859 0784 FC01      		movw r30,r24
+ 860 0786 E050      		subi r30,lo8(-(digit))
+ 861 0788 F040      		sbci r31,hi8(-(digit))
+ 862 078a 8081      		ld r24,Z
+ 863 078c 8B83      		std Y+3,r24
+ 864 078e 1C82      		std Y+4,__zero_reg__
+ 865 0790 8091 0000 		lds r24,s_day
+ 866 0794 9091 0000 		lds r25,(s_day)+1
+ 867 0798 6AE0      		ldi r22,lo8(10)
+ 868 079a 70E0      		ldi r23,hi8(10)
+ 869 079c 0E94 0000 		call __udivmodhi4
+ 870 07a0 00C0      		rjmp .L68
+ 871               		.size	FndTask, .-FndTask
+ 872               	.global	TimeTask
+ 873               		.type	TimeTask, @function
+ 874               	TimeTask:
+ 875 07a2 EF92      		push r14
+ 876 07a4 FF92      		push r15
+ 877 07a6 0F93      		push r16
+ 878 07a8 1F93      		push r17
+ 879 07aa DF93      		push r29
+ 880 07ac CF93      		push r28
+ 881 07ae 0F92      		push __tmp_reg__
+ 882 07b0 CDB7      		in r28,__SP_L__
+ 883 07b2 DEB7      		in r29,__SP_H__
+ 884               	/* prologue: function */
+ 885               	/* frame size = 1 */
+ 886 07b4 7E01      		movw r14,r28
+ 887 07b6 0894      		sec
+ 888 07b8 E11C      		adc r14,__zero_reg__
+ 889 07ba F11C      		adc r15,__zero_reg__
+ 890 07bc 00C0      		rjmp .L85
+ 891               	.L88:
+ 892 07be 8091 0000 		lds r24,m_sec
+ 893 07c2 9091 0000 		lds r25,(m_sec)+1
+ 894 07c6 0196      		adiw r24,1
+ 895 07c8 9093 0000 		sts (m_sec)+1,r25
+ 896 07cc 8093 0000 		sts m_sec,r24
+ 897               	.L79:
+ 898 07d0 88EE      		ldi r24,lo8(1000)
+ 899 07d2 93E0      		ldi r25,hi8(1000)
+ 900 07d4 0E94 0000 		call OSTimeDly
+ 901               	.L85:
+ 902 07d8 8091 0000 		lds r24,mode
+ 903 07dc 9091 0000 		lds r25,(mode)+1
+ 904 07e0 0297      		sbiw r24,2
+ 905 07e2 01F0      		breq .L87
+ 906 07e4 8091 0000 		lds r24,m_sec
+ 907 07e8 9091 0000 		lds r25,(m_sec)+1
+ 908 07ec CC97      		sbiw r24,60
+ 909 07ee 00F0      		brlo .L88
+ 910 07f0 8091 0000 		lds r24,m_min
+ 911 07f4 9091 0000 		lds r25,(m_min)+1
+ 912 07f8 CC97      		sbiw r24,60
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 17
+
+
+ 913 07fa 00F4      		brsh .L81
+ 914 07fc 8091 0000 		lds r24,m_min
+ 915 0800 9091 0000 		lds r25,(m_min)+1
+ 916 0804 0196      		adiw r24,1
+ 917 0806 9093 0000 		sts (m_min)+1,r25
+ 918 080a 8093 0000 		sts m_min,r24
+ 919               	.L82:
+ 920 080e 1092 0000 		sts (m_sec)+1,__zero_reg__
+ 921 0812 1092 0000 		sts m_sec,__zero_reg__
+ 922 0816 00C0      		rjmp .L79
+ 923               	.L81:
+ 924 0818 8091 0000 		lds r24,m_hour
+ 925 081c 9091 0000 		lds r25,(m_hour)+1
+ 926 0820 4897      		sbiw r24,24
+ 927 0822 00F4      		brsh .L83
+ 928 0824 8091 0000 		lds r24,m_hour
+ 929 0828 9091 0000 		lds r25,(m_hour)+1
+ 930 082c 0196      		adiw r24,1
+ 931 082e 9093 0000 		sts (m_hour)+1,r25
+ 932 0832 8093 0000 		sts m_hour,r24
+ 933               	.L84:
+ 934 0836 1092 0000 		sts (m_min)+1,__zero_reg__
+ 935 083a 1092 0000 		sts m_min,__zero_reg__
+ 936 083e 00C0      		rjmp .L82
+ 937               	.L87:
+ 938 0840 8091 0000 		lds r24,set_time_wait
+ 939 0844 9091 0000 		lds r25,(set_time_wait)+1
+ 940 0848 61E0      		ldi r22,lo8(1)
+ 941 084a 43E8      		ldi r20,lo8(-125)
+ 942 084c 20E0      		ldi r18,lo8(0)
+ 943 084e 30E0      		ldi r19,hi8(0)
+ 944 0850 8701      		movw r16,r14
+ 945 0852 0E94 0000 		call OSFlagPend
+ 946 0856 00C0      		rjmp .L79
+ 947               	.L83:
+ 948 0858 8091 0000 		lds r24,Sem
+ 949 085c 9091 0000 		lds r25,(Sem)+1
+ 950 0860 60E0      		ldi r22,lo8(0)
+ 951 0862 70E0      		ldi r23,hi8(0)
+ 952 0864 A701      		movw r20,r14
+ 953 0866 0E94 0000 		call OSSemPend
+ 954 086a 8091 0000 		lds r24,m_day
+ 955 086e 9091 0000 		lds r25,(m_day)+1
+ 956 0872 0196      		adiw r24,1
+ 957 0874 9093 0000 		sts (m_day)+1,r25
+ 958 0878 8093 0000 		sts m_day,r24
+ 959 087c 8091 0000 		lds r24,Sem
+ 960 0880 9091 0000 		lds r25,(Sem)+1
+ 961 0884 0E94 0000 		call OSSemPost
+ 962 0888 1092 0000 		sts (m_hour)+1,__zero_reg__
+ 963 088c 1092 0000 		sts m_hour,__zero_reg__
+ 964 0890 00C0      		rjmp .L84
+ 965               		.size	TimeTask, .-TimeTask
+ 966               	.global	__vector_6
+ 967               		.type	__vector_6, @function
+ 968               	__vector_6:
+ 969 0892 1F92      		push __zero_reg__
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 18
+
+
+ 970 0894 0F92      		push r0
+ 971 0896 0FB6      		in r0,__SREG__
+ 972 0898 0F92      		push r0
+ 973 089a 0BB6      		in r0,91-32
+ 974 089c 0F92      		push r0
+ 975 089e 1124      		clr __zero_reg__
+ 976 08a0 2F93      		push r18
+ 977 08a2 3F93      		push r19
+ 978 08a4 4F93      		push r20
+ 979 08a6 5F93      		push r21
+ 980 08a8 6F93      		push r22
+ 981 08aa 7F93      		push r23
+ 982 08ac 8F93      		push r24
+ 983 08ae 9F93      		push r25
+ 984 08b0 AF93      		push r26
+ 985 08b2 BF93      		push r27
+ 986 08b4 EF93      		push r30
+ 987 08b6 FF93      		push r31
+ 988 08b8 DF93      		push r29
+ 989 08ba CF93      		push r28
+ 990 08bc 0F92      		push __tmp_reg__
+ 991 08be CDB7      		in r28,__SP_L__
+ 992 08c0 DEB7      		in r29,__SP_H__
+ 993               	/* prologue: Signal */
+ 994               	/* frame size = 1 */
+ 995 08c2 8091 0000 		lds r24,mode
+ 996 08c6 9091 0000 		lds r25,(mode)+1
+ 997 08ca 8430      		cpi r24,4
+ 998 08cc 9105      		cpc r25,__zero_reg__
+ 999 08ce 01F4      		brne .+2
+ 1000 08d0 00C0      		rjmp .L95
+ 1001 08d2 8530      		cpi r24,5
+ 1002 08d4 9105      		cpc r25,__zero_reg__
+ 1003 08d6 04F0      		brlt .L110
+ 1004 08d8 8630      		cpi r24,6
+ 1005 08da 9105      		cpc r25,__zero_reg__
+ 1006 08dc 01F4      		brne .+2
+ 1007 08de 00C0      		rjmp .L97
+ 1008 08e0 8630      		cpi r24,6
+ 1009 08e2 9105      		cpc r25,__zero_reg__
+ 1010 08e4 04F4      		brge .+2
+ 1011 08e6 00C0      		rjmp .L96
+ 1012 08e8 8A30      		cpi r24,10
+ 1013 08ea 9105      		cpc r25,__zero_reg__
+ 1014 08ec 01F4      		brne .+2
+ 1015 08ee 00C0      		rjmp .L98
+ 1016 08f0 0B97      		sbiw r24,11
+ 1017 08f2 01F4      		brne .L90
+ 1018               	.L99:
+ 1019 08f4 8AE0      		ldi r24,lo8(10)
+ 1020 08f6 90E0      		ldi r25,hi8(10)
+ 1021 08f8 9093 0000 		sts (mode)+1,r25
+ 1022 08fc 8093 0000 		sts mode,r24
+ 1023 0900 20EB      		ldi r18,lo8(1200)
+ 1024 0902 34E0      		ldi r19,hi8(1200)
+ 1025               	.L103:
+ 1026 0904 40E9      		ldi r20,lo8(400)
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 19
+
+
+ 1027 0906 51E0      		ldi r21,hi8(400)
+ 1028               	.L108:
+ 1029 0908 CA01      		movw r24,r20
+ 1030               	/* #APP */
+ 1031               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1032 090a 0197      		1: sbiw r24,1
+ 1033 090c 01F4      		brne 1b
+ 1034               	 ;  0 "" 2
+ 1035               	/* #NOAPP */
+ 1036 090e 2150      		subi r18,lo8(-(-1))
+ 1037 0910 3040      		sbci r19,hi8(-(-1))
+ 1038 0912 01F4      		brne .L108
+ 1039               	/* epilogue start */
+ 1040 0914 0F90      		pop __tmp_reg__
+ 1041 0916 CF91      		pop r28
+ 1042 0918 DF91      		pop r29
+ 1043 091a FF91      		pop r31
+ 1044 091c EF91      		pop r30
+ 1045 091e BF91      		pop r27
+ 1046 0920 AF91      		pop r26
+ 1047 0922 9F91      		pop r25
+ 1048 0924 8F91      		pop r24
+ 1049 0926 7F91      		pop r23
+ 1050 0928 6F91      		pop r22
+ 1051 092a 5F91      		pop r21
+ 1052 092c 4F91      		pop r20
+ 1053 092e 3F91      		pop r19
+ 1054 0930 2F91      		pop r18
+ 1055 0932 0F90      		pop r0
+ 1056 0934 0BBE      		out 91-32,r0
+ 1057 0936 0F90      		pop r0
+ 1058 0938 0FBE      		out __SREG__,r0
+ 1059 093a 0F90      		pop r0
+ 1060 093c 1F90      		pop __zero_reg__
+ 1061 093e 1895      		reti
+ 1062               	.L110:
+ 1063 0940 8130      		cpi r24,1
+ 1064 0942 9105      		cpc r25,__zero_reg__
+ 1065 0944 01F0      		breq .L99
+ 1066 0946 8230      		cpi r24,2
+ 1067 0948 9105      		cpc r25,__zero_reg__
+ 1068 094a 04F0      		brlt .L111
+ 1069 094c 8230      		cpi r24,2
+ 1070 094e 9105      		cpc r25,__zero_reg__
+ 1071 0950 01F4      		brne .+2
+ 1072 0952 00C0      		rjmp .L93
+ 1073 0954 0397      		sbiw r24,3
+ 1074 0956 01F0      		breq .L112
+ 1075               	.L90:
+ 1076 0958 20EB      		ldi r18,lo8(1200)
+ 1077 095a 34E0      		ldi r19,hi8(1200)
+ 1078 095c 00C0      		rjmp .L103
+ 1079               	.L96:
+ 1080 095e 1092 0000 		sts (alarm_timer)+1,__zero_reg__
+ 1081 0962 1092 0000 		sts alarm_timer,__zero_reg__
+ 1082 0966 20EB      		ldi r18,lo8(1200)
+ 1083 0968 34E0      		ldi r19,hi8(1200)
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 20
+
+
+ 1084 096a 00C0      		rjmp .L103
+ 1085               	.L111:
+ 1086 096c 892B      		or r24,r25
+ 1087 096e 01F4      		brne .+2
+ 1088 0970 00C0      		rjmp .L99
+ 1089 0972 00C0      		rjmp .L90
+ 1090               	.L97:
+ 1091 0974 1092 0000 		sts (alarm_light)+1,__zero_reg__
+ 1092 0978 1092 0000 		sts alarm_light,__zero_reg__
+ 1093 097c 20EB      		ldi r18,lo8(1200)
+ 1094 097e 34E0      		ldi r19,hi8(1200)
+ 1095 0980 00C0      		rjmp .L103
+ 1096               	.L95:
+ 1097 0982 8091 0000 		lds r24,max_min
+ 1098 0986 9091 0000 		lds r25,(max_min)+1
+ 1099 098a 892B      		or r24,r25
+ 1100 098c 01F0      		breq .+2
+ 1101 098e 00C0      		rjmp .L106
+ 1102 0990 81E0      		ldi r24,lo8(1)
+ 1103 0992 90E0      		ldi r25,hi8(1)
+ 1104 0994 9093 0000 		sts (max_min)+1,r25
+ 1105 0998 8093 0000 		sts max_min,r24
+ 1106 099c 20EB      		ldi r18,lo8(1200)
+ 1107 099e 34E0      		ldi r19,hi8(1200)
+ 1108 09a0 00C0      		rjmp .L103
+ 1109               	.L98:
+ 1110 09a2 8091 0000 		lds r24,menu_select
+ 1111 09a6 9091 0000 		lds r25,(menu_select)+1
+ 1112 09aa 9093 0000 		sts (mode)+1,r25
+ 1113 09ae 8093 0000 		sts mode,r24
+ 1114 09b2 20EB      		ldi r18,lo8(1200)
+ 1115 09b4 34E0      		ldi r19,hi8(1200)
+ 1116 09b6 00C0      		rjmp .L103
+ 1117               	.L112:
+ 1118 09b8 8091 0000 		lds r24,set_stime
+ 1119 09bc 9091 0000 		lds r25,(set_stime)+1
+ 1120 09c0 0297      		sbiw r24,2
+ 1121 09c2 01F4      		brne .+2
+ 1122 09c4 00C0      		rjmp .L113
+ 1123 09c6 8091 0000 		lds r24,set_stime
+ 1124 09ca 9091 0000 		lds r25,(set_stime)+1
+ 1125 09ce 0197      		sbiw r24,1
+ 1126 09d0 01F4      		brne .+2
+ 1127 09d2 00C0      		rjmp .L114
+ 1128 09d4 8091 0000 		lds r24,set_stime
+ 1129 09d8 9091 0000 		lds r25,(set_stime)+1
+ 1130 09dc 892B      		or r24,r25
+ 1131 09de 01F0      		breq .+2
+ 1132 09e0 00C0      		rjmp .L90
+ 1133 09e2 82E0      		ldi r24,lo8(2)
+ 1134 09e4 90E0      		ldi r25,hi8(2)
+ 1135 09e6 9093 0000 		sts (set_stime)+1,r25
+ 1136 09ea 8093 0000 		sts set_stime,r24
+ 1137 09ee 8AE0      		ldi r24,lo8(10)
+ 1138 09f0 90E0      		ldi r25,hi8(10)
+ 1139 09f2 9093 0000 		sts (mode)+1,r25
+ 1140 09f6 8093 0000 		sts mode,r24
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 21
+
+
+ 1141 09fa 81E0      		ldi r24,lo8(1)
+ 1142 09fc 90E0      		ldi r25,hi8(1)
+ 1143 09fe 9093 0000 		sts (alarm_timer)+1,r25
+ 1144 0a02 8093 0000 		sts alarm_timer,r24
+ 1145 0a06 20EB      		ldi r18,lo8(1200)
+ 1146 0a08 34E0      		ldi r19,hi8(1200)
+ 1147 0a0a 00C0      		rjmp .L103
+ 1148               	.L93:
+ 1149 0a0c 8091 0000 		lds r24,set_time
+ 1150 0a10 9091 0000 		lds r25,(set_time)+1
+ 1151 0a14 0197      		sbiw r24,1
+ 1152 0a16 01F4      		brne .+2
+ 1153 0a18 00C0      		rjmp .L115
+ 1154 0a1a 8091 0000 		lds r24,set_time
+ 1155 0a1e 9091 0000 		lds r25,(set_time)+1
+ 1156 0a22 892B      		or r24,r25
+ 1157 0a24 01F0      		breq .+2
+ 1158 0a26 00C0      		rjmp .L90
+ 1159 0a28 81E0      		ldi r24,lo8(1)
+ 1160 0a2a 90E0      		ldi r25,hi8(1)
+ 1161 0a2c 9093 0000 		sts (set_time)+1,r25
+ 1162 0a30 8093 0000 		sts set_time,r24
+ 1163 0a34 8AE0      		ldi r24,lo8(10)
+ 1164 0a36 90E0      		ldi r25,hi8(10)
+ 1165 0a38 9093 0000 		sts (mode)+1,r25
+ 1166 0a3c 8093 0000 		sts mode,r24
+ 1167 0a40 8091 0000 		lds r24,set_time_wait
+ 1168 0a44 9091 0000 		lds r25,(set_time_wait)+1
+ 1169 0a48 61E0      		ldi r22,lo8(1)
+ 1170 0a4a 41E0      		ldi r20,lo8(1)
+ 1171 0a4c 9E01      		movw r18,r28
+ 1172 0a4e 2F5F      		subi r18,lo8(-(1))
+ 1173 0a50 3F4F      		sbci r19,hi8(-(1))
+ 1174 0a52 0E94 0000 		call OSFlagPost
+ 1175 0a56 20EB      		ldi r18,lo8(1200)
+ 1176 0a58 34E0      		ldi r19,hi8(1200)
+ 1177 0a5a 00C0      		rjmp .L103
+ 1178               	.L106:
+ 1179 0a5c 8AE0      		ldi r24,lo8(10)
+ 1180 0a5e 90E0      		ldi r25,hi8(10)
+ 1181 0a60 9093 0000 		sts (mode)+1,r25
+ 1182 0a64 8093 0000 		sts mode,r24
+ 1183 0a68 1092 0000 		sts (max_min)+1,__zero_reg__
+ 1184 0a6c 1092 0000 		sts max_min,__zero_reg__
+ 1185 0a70 81E0      		ldi r24,lo8(1)
+ 1186 0a72 90E0      		ldi r25,hi8(1)
+ 1187 0a74 9093 0000 		sts (alarm_light)+1,r25
+ 1188 0a78 8093 0000 		sts alarm_light,r24
+ 1189 0a7c 20EB      		ldi r18,lo8(1200)
+ 1190 0a7e 34E0      		ldi r19,hi8(1200)
+ 1191 0a80 00C0      		rjmp .L103
+ 1192               	.L114:
+ 1193 0a82 1092 0000 		sts (set_stime)+1,__zero_reg__
+ 1194 0a86 1092 0000 		sts set_stime,__zero_reg__
+ 1195 0a8a 20EB      		ldi r18,lo8(1200)
+ 1196 0a8c 34E0      		ldi r19,hi8(1200)
+ 1197 0a8e 00C0      		rjmp .L103
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 22
+
+
+ 1198               	.L113:
+ 1199 0a90 81E0      		ldi r24,lo8(1)
+ 1200 0a92 90E0      		ldi r25,hi8(1)
+ 1201 0a94 9093 0000 		sts (set_stime)+1,r25
+ 1202 0a98 8093 0000 		sts set_stime,r24
+ 1203 0a9c 20EB      		ldi r18,lo8(1200)
+ 1204 0a9e 34E0      		ldi r19,hi8(1200)
+ 1205 0aa0 00C0      		rjmp .L103
+ 1206               	.L115:
+ 1207 0aa2 1092 0000 		sts (set_time)+1,__zero_reg__
+ 1208 0aa6 1092 0000 		sts set_time,__zero_reg__
+ 1209 0aaa 20EB      		ldi r18,lo8(1200)
+ 1210 0aac 34E0      		ldi r19,hi8(1200)
+ 1211 0aae 00C0      		rjmp .L103
+ 1212               		.size	__vector_6, .-__vector_6
+ 1213               	.global	main
+ 1214               		.type	main, @function
+ 1215               	main:
+ 1216 0ab0 DF93      		push r29
+ 1217 0ab2 CF93      		push r28
+ 1218 0ab4 0F92      		push __tmp_reg__
+ 1219 0ab6 CDB7      		in r28,__SP_L__
+ 1220 0ab8 DEB7      		in r29,__SP_H__
+ 1221               	/* prologue: function */
+ 1222               	/* frame size = 1 */
+ 1223 0aba 0E94 0000 		call OSInit
+ 1224               	/* #APP */
+ 1225               	 ;  104 "lab1.c" 1
+ 1226 0abe F894      		cli
+ 1227               	 ;  0 "" 2
+ 1228               	/* #NOAPP */
+ 1229 0ac0 83E0      		ldi r24,lo8(3)
+ 1230 0ac2 83BF      		out 83-32,r24
+ 1231 0ac4 81E0      		ldi r24,lo8(1)
+ 1232 0ac6 87BF      		out 87-32,r24
+ 1233 0ac8 84E6      		ldi r24,lo8(100)
+ 1234 0aca 82BF      		out 82-32,r24
+ 1235               	/* #APP */
+ 1236               	 ;  108 "lab1.c" 1
+ 1237 0acc 7894      		sei
+ 1238               	 ;  0 "" 2
+ 1239               	/* #NOAPP */
+ 1240 0ace 80E0      		ldi r24,lo8(0)
+ 1241 0ad0 BE01      		movw r22,r28
+ 1242 0ad2 6F5F      		subi r22,lo8(-(1))
+ 1243 0ad4 7F4F      		sbci r23,hi8(-(1))
+ 1244 0ad6 0E94 0000 		call OSFlagCreate
+ 1245 0ada 9093 0000 		sts (set_time_wait)+1,r25
+ 1246 0ade 8093 0000 		sts set_time_wait,r24
+ 1247 0ae2 81E0      		ldi r24,lo8(1)
+ 1248 0ae4 90E0      		ldi r25,hi8(1)
+ 1249 0ae6 0E94 0000 		call OSSemCreate
+ 1250 0aea 9093 0000 		sts (Sem)+1,r25
+ 1251 0aee 8093 0000 		sts Sem,r24
+ 1252 0af2 8FEC      		ldi r24,lo8(-49)
+ 1253 0af4 82B9      		out 34-32,r24
+ 1254 0af6 8AE0      		ldi r24,lo8(10)
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 23
+
+
+ 1255 0af8 8ABF      		out 90-32,r24
+ 1256 0afa 80E3      		ldi r24,lo8(48)
+ 1257 0afc 89BF      		out 89-32,r24
+ 1258 0afe 8FB7      		in r24,__SREG__
+ 1259 0b00 8068      		ori r24,lo8(-128)
+ 1260 0b02 8FBF      		out __SREG__,r24
+ 1261 0b04 80E0      		ldi r24,lo8(gs(TimeTask))
+ 1262 0b06 90E0      		ldi r25,hi8(gs(TimeTask))
+ 1263 0b08 60E0      		ldi r22,lo8(0)
+ 1264 0b0a 70E0      		ldi r23,hi8(0)
+ 1265 0b0c 40E0      		ldi r20,lo8(TimeTaskStk+127)
+ 1266 0b0e 50E0      		ldi r21,hi8(TimeTaskStk+127)
+ 1267 0b10 21E0      		ldi r18,lo8(1)
+ 1268 0b12 0E94 0000 		call OSTaskCreate
+ 1269 0b16 80E0      		ldi r24,lo8(gs(FndTask))
+ 1270 0b18 90E0      		ldi r25,hi8(gs(FndTask))
+ 1271 0b1a 60E0      		ldi r22,lo8(0)
+ 1272 0b1c 70E0      		ldi r23,hi8(0)
+ 1273 0b1e 40E0      		ldi r20,lo8(FndTaskStk+127)
+ 1274 0b20 50E0      		ldi r21,hi8(FndTaskStk+127)
+ 1275 0b22 22E0      		ldi r18,lo8(2)
+ 1276 0b24 0E94 0000 		call OSTaskCreate
+ 1277 0b28 80E0      		ldi r24,lo8(gs(AlarmTask))
+ 1278 0b2a 90E0      		ldi r25,hi8(gs(AlarmTask))
+ 1279 0b2c 60E0      		ldi r22,lo8(0)
+ 1280 0b2e 70E0      		ldi r23,hi8(0)
+ 1281 0b30 40E0      		ldi r20,lo8(AlarmTaskStk+127)
+ 1282 0b32 50E0      		ldi r21,hi8(AlarmTaskStk+127)
+ 1283 0b34 23E0      		ldi r18,lo8(3)
+ 1284 0b36 0E94 0000 		call OSTaskCreate
+ 1285 0b3a 80E0      		ldi r24,lo8(gs(AdcTask))
+ 1286 0b3c 90E0      		ldi r25,hi8(gs(AdcTask))
+ 1287 0b3e 60E0      		ldi r22,lo8(0)
+ 1288 0b40 70E0      		ldi r23,hi8(0)
+ 1289 0b42 40E0      		ldi r20,lo8(AdcTaskStk+127)
+ 1290 0b44 50E0      		ldi r21,hi8(AdcTaskStk+127)
+ 1291 0b46 24E0      		ldi r18,lo8(4)
+ 1292 0b48 0E94 0000 		call OSTaskCreate
+ 1293 0b4c 80E0      		ldi r24,lo8(gs(LedTask))
+ 1294 0b4e 90E0      		ldi r25,hi8(gs(LedTask))
+ 1295 0b50 60E0      		ldi r22,lo8(0)
+ 1296 0b52 70E0      		ldi r23,hi8(0)
+ 1297 0b54 40E0      		ldi r20,lo8(LedTaskStk+127)
+ 1298 0b56 50E0      		ldi r21,hi8(LedTaskStk+127)
+ 1299 0b58 25E0      		ldi r18,lo8(5)
+ 1300 0b5a 0E94 0000 		call OSTaskCreate
+ 1301 0b5e 0E94 0000 		call OSStart
+ 1302 0b62 80E0      		ldi r24,lo8(0)
+ 1303 0b64 90E0      		ldi r25,hi8(0)
+ 1304               	/* epilogue start */
+ 1305 0b66 0F90      		pop __tmp_reg__
+ 1306 0b68 CF91      		pop r28
+ 1307 0b6a DF91      		pop r29
+ 1308 0b6c 0895      		ret
+ 1309               		.size	main, .-main
+ 1310               	.global	data
+ 1311               		.data
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 24
+
+
+ 1312               		.type	data, @object
+ 1313               		.size	data, 16
+ 1314               	data:
+ 1315 0000 1100      		.word	17
+ 1316 0002 2B00      		.word	43
+ 1317 0004 4200      		.word	66
+ 1318 0006 4D00      		.word	77
+ 1319 0008 6100      		.word	97
+ 1320 000a 7200      		.word	114
+ 1321 000c 8100      		.word	129
+ 1322 000e 8900      		.word	137
+ 1323               	.global	menu_select
+ 1324               	.global	menu_select
+ 1325               		.section .bss
+ 1326               		.type	menu_select, @object
+ 1327               		.size	menu_select, 2
+ 1328               	menu_select:
+ 1329 0000 0000      		.skip 2,0
+ 1330               	.global	mode
+ 1331               		.data
+ 1332               		.type	mode, @object
+ 1333               		.size	mode, 2
+ 1334               	mode:
+ 1335 0010 0200      		.word	2
+ 1336               	.global	set_time
+ 1337               		.type	set_time, @object
+ 1338               		.size	set_time, 2
+ 1339               	set_time:
+ 1340 0012 0100      		.word	1
+ 1341               	.global	set_stime
+ 1342               		.type	set_stime, @object
+ 1343               		.size	set_stime, 2
+ 1344               	set_stime:
+ 1345 0014 0200      		.word	2
+ 1346               	.global	status
+ 1347               		.type	status, @object
+ 1348               		.size	status, 2
+ 1349               	status:
+ 1350 0016 0200      		.word	2
+ 1351               	.global	m_sec
+ 1352               	.global	m_sec
+ 1353               		.section .bss
+ 1354               		.type	m_sec, @object
+ 1355               		.size	m_sec, 2
+ 1356               	m_sec:
+ 1357 0002 0000      		.skip 2,0
+ 1358               	.global	m_hour
+ 1359               	.global	m_hour
+ 1360               		.type	m_hour, @object
+ 1361               		.size	m_hour, 2
+ 1362               	m_hour:
+ 1363 0004 0000      		.skip 2,0
+ 1364               	.global	m_min
+ 1365               	.global	m_min
+ 1366               		.type	m_min, @object
+ 1367               		.size	m_min, 2
+ 1368               	m_min:
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 25
+
+
+ 1369 0006 0000      		.skip 2,0
+ 1370               	.global	m_day
+ 1371               	.global	m_day
+ 1372               		.type	m_day, @object
+ 1373               		.size	m_day, 2
+ 1374               	m_day:
+ 1375 0008 0000      		.skip 2,0
+ 1376               	.global	s_hour
+ 1377               	.global	s_hour
+ 1378               		.type	s_hour, @object
+ 1379               		.size	s_hour, 2
+ 1380               	s_hour:
+ 1381 000a 0000      		.skip 2,0
+ 1382               	.global	s_min
+ 1383               	.global	s_min
+ 1384               		.type	s_min, @object
+ 1385               		.size	s_min, 2
+ 1386               	s_min:
+ 1387 000c 0000      		.skip 2,0
+ 1388               	.global	s_day
+ 1389               	.global	s_day
+ 1390               		.type	s_day, @object
+ 1391               		.size	s_day, 2
+ 1392               	s_day:
+ 1393 000e 0000      		.skip 2,0
+ 1394               	.global	light
+ 1395               	.global	light
+ 1396               		.type	light, @object
+ 1397               		.size	light, 2
+ 1398               	light:
+ 1399 0010 0000      		.skip 2,0
+ 1400               	.global	max_light
+ 1401               	.global	max_light
+ 1402               		.type	max_light, @object
+ 1403               		.size	max_light, 2
+ 1404               	max_light:
+ 1405 0012 0000      		.skip 2,0
+ 1406               	.global	min_light
+ 1407               	.global	min_light
+ 1408               		.type	min_light, @object
+ 1409               		.size	min_light, 2
+ 1410               	min_light:
+ 1411 0014 0000      		.skip 2,0
+ 1412               	.global	max_min
+ 1413               	.global	max_min
+ 1414               		.type	max_min, @object
+ 1415               		.size	max_min, 2
+ 1416               	max_min:
+ 1417 0016 0000      		.skip 2,0
+ 1418               	.global	alarm_timer
+ 1419               	.global	alarm_timer
+ 1420               		.type	alarm_timer, @object
+ 1421               		.size	alarm_timer, 2
+ 1422               	alarm_timer:
+ 1423 0018 0000      		.skip 2,0
+ 1424               	.global	alarm_light
+ 1425               	.global	alarm_light
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 26
+
+
+ 1426               		.type	alarm_light, @object
+ 1427               		.size	alarm_light, 2
+ 1428               	alarm_light:
+ 1429 001a 0000      		.skip 2,0
+ 1430               	.global	alarm_tmp
+ 1431               	.global	alarm_tmp
+ 1432               		.type	alarm_tmp, @object
+ 1433               		.size	alarm_tmp, 2
+ 1434               	alarm_tmp:
+ 1435 001c 0000      		.skip 2,0
+ 1436               	.global	digit
+ 1437               		.data
+ 1438               		.type	digit, @object
+ 1439               		.size	digit, 10
+ 1440               	digit:
+ 1441 0018 3F        		.byte	63
+ 1442 0019 06        		.byte	6
+ 1443 001a 5B        		.byte	91
+ 1444 001b 4F        		.byte	79
+ 1445 001c 66        		.byte	102
+ 1446 001d 6D        		.byte	109
+ 1447 001e 7C        		.byte	124
+ 1448 001f 07        		.byte	7
+ 1449 0020 7F        		.byte	127
+ 1450 0021 67        		.byte	103
+ 1451               	.global	fnd_sel
+ 1452               		.type	fnd_sel, @object
+ 1453               		.size	fnd_sel, 4
+ 1454               	fnd_sel:
+ 1455 0022 01        		.byte	1
+ 1456 0023 02        		.byte	2
+ 1457 0024 04        		.byte	4
+ 1458 0025 08        		.byte	8
+ 1459               		.comm TimeTaskStk,128,1
+ 1460               		.comm LedTaskStk,128,1
+ 1461               		.comm FndTaskStk,128,1
+ 1462               		.comm AdcTaskStk,128,1
+ 1463               		.comm SetTaskStk,128,1
+ 1464               		.comm AlarmTaskStk,128,1
+ 1465               		.comm set_time_wait,2,1
+ 1466               		.comm Sem,2,1
+ 1467               	.global __do_copy_data
+ 1468               	.global __do_clear_bss
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 27
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lab1.c
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:2      *ABS*:0000003f __SREG__
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:3      *ABS*:0000003e __SP_H__
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:4      *ABS*:0000003d __SP_L__
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:5      *ABS*:00000034 __CCP__
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:11     .text:00000000 init_adc
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:23     .text:0000000a init_switch
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:40     .text:0000001e read_adc
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:67     .text:00000044 __vector_5
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1334   .data:00000010 mode
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1344   .data:00000014 set_stime
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1386   .bss:0000000c s_min
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1422   .bss:00000018 alarm_timer
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1428   .bss:0000001a alarm_light
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1328   .bss:00000000 menu_select
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1349   .data:00000016 status
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1339   .data:00000012 set_time
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1368   .bss:00000006 m_min
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1416   .bss:00000016 max_min
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1410   .bss:00000014 min_light
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1362   .bss:00000004 m_hour
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1380   .bss:0000000a s_hour
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1392   .bss:0000000e s_day
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1404   .bss:00000012 max_light
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:321    .text:000002a4 AlarmTask
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1374   .bss:00000008 m_day
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1356   .bss:00000002 m_sec
+                            *COM*:00000002 Sem
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1398   .bss:00000010 light
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:417    .text:0000039c AdcTask
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:442    .text:000003cc LedTask
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:468    .text:000003f8 FndTask
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1454   .data:00000022 fnd_sel
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1440   .data:00000018 digit
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:874    .text:000007a2 TimeTask
+                            *COM*:00000002 set_time_wait
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:968    .text:00000892 __vector_6
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1215   .text:00000ab0 main
+                            *COM*:00000080 TimeTaskStk
+                            *COM*:00000080 FndTaskStk
+                            *COM*:00000080 AlarmTaskStk
+                            *COM*:00000080 AdcTaskStk
+                            *COM*:00000080 LedTaskStk
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1314   .data:00000000 data
+C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s:1434   .bss:0000001c alarm_tmp
+                            *COM*:00000080 SetTaskStk
+
+UNDEFINED SYMBOLS
+__udivmodhi4
+OSTimeDly
+OSSemPend
+OSSemPost
+__divmodhi4
+OSFlagPend
+GAS LISTING C:\Users\±è¿µÈÆ\AppData\Local\Temp/cctC3OzA.s 			page 28
+
+
+OSFlagPost
+OSInit
+OSFlagCreate
+OSSemCreate
+OSTaskCreate
+OSStart
+__do_copy_data
+__do_clear_bss
