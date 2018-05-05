@@ -9,7 +9,7 @@ embedded 환경에서의 RTOS 제작
     - [event flag&semaphore](https://github.com/swyh/embedded-programming/tree/master/4_event%20flag%26semaphore)
     - [Mutex semaphore](https://github.com/swyh/embedded-programming/tree/master/5_Mutex%20semaphore)
   
-  - develop embedded System
+  - develop embedded System on ATmega128
     - [LED&FND](https://github.com/swyh/embedded-programming/tree/master/6_LED%26FND)
     - [Switch&Buzzer](https://github.com/swyh/embedded-programming/tree/master/7_Switch%26Buzzer)
     - [광센서&온도센서](https://github.com/swyh/embedded-programming/tree/master/7_Switch%26Buzzer)
